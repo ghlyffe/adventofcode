@@ -174,3 +174,7 @@ class OutputFeedback(Output):
 	def run(self):
 		self.interpreter.queue_input(self[0])
 		return True
+
+def default_opcodes():
+		return {1:Addition,2:Multiplication,3:Input,5:JumpIfTrue,6:JumpIfFalse,7:LessThan,8:Equal,99:Halt}
+
