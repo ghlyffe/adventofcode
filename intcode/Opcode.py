@@ -22,9 +22,15 @@ class Opcode(object):
 		if key in self.__parameter_modes:
 			mode,val = self.__parameter_modes[key]
 		if mode == 0: #Positional
+			while val >= len(self.__memory):
+				self.__memory.append(0)
 			return self.__memory[val]
 		elif mode == 1: #Immediate
 			return val
+		elif mode == 2: #Relative
+			while (val+self.interpreter._Interpreter__rel_base) >= len(self.__memory):
+				self.__memory.append(0)
+			return self.__memory[self.interpreter._Interpreter__rel_base + val]
 		else:
 			raise Exception("Invalid Parameter Mode %d"%mode)
 
@@ -34,9 +40,15 @@ class Opcode(object):
 		if key in self.__parameter_modes:
 			mode,val = self.__parameter_modes[key]
 		if mode == 0: #Positional
+			while val >= len(self.__memory):
+				self.__memory.append(0)
 			self.__memory[val] = value
 		elif mode == 1: #Immediate
 			raise Exception("Trying to use immediate mode for assignment")
+		elif mode == 2: #Relative
+			while (val+self.interpreter._Interpreter__rel_base) >= len(self.__memory):
+				self.__memory.append(0)
+			self.__memory[self.interpreter._Interpreter__rel_base + val] = value
 		else:
 			raise Exception("Invalid Parameter Mode %d"%mode)
 
@@ -170,11 +182,22 @@ class Equal(Opcode):
 	def ptr_inc(self):
 		return 4
 
+class RelativeBaseOffset(Opcode):
+	def opcode(self):
+		return 9
+
+	def run(self):
+		self.interpreter._Interpreter__rel_base += self[0]
+		return True
+
+	def ptr_inc(self):
+		return 2
+
 class OutputFeedback(Output):
 	def run(self):
 		self.interpreter.queue_input(self[0])
 		return True
 
 def default_opcodes():
-		return {1:Addition,2:Multiplication,3:Input,5:JumpIfTrue,6:JumpIfFalse,7:LessThan,8:Equal,99:Halt}
+		return {1:Addition,2:Multiplication,3:Input,4:Output,5:JumpIfTrue,6:JumpIfFalse,7:LessThan,8:Equal,9:RelativeBaseOffset,99:Halt}
 

@@ -9,6 +9,7 @@ class Interpreter(object):
 		self.__outputs = []
 		self.__ops = ops
 		self.__halted = False
+		self.__rel_base = 0
 
 	def queue_input(self,val):
 		replacables = self.__inputs.count(None)
@@ -69,9 +70,13 @@ class Interpreter(object):
 		return self.__halted
 
 	def __getitem__(self,key):
+		while key >= len(self.__memory):
+			self.__memory.append(0)
 		return self.__memory[key]
 
 	def __setitem__(self,key,val):
+		while key >= len(self.__memory):
+			self.__memory.append(0)
 		self.__memory[key] = val
 
 	def __str__(self):
@@ -82,3 +87,13 @@ class Interpreter(object):
 	def memory(self):
 		import copy
 		return copy.copy(self.__memory)
+
+if __name__=='__main__':
+	import copy
+	tape = [int(i) for i in ','.join([line.strip() for line in open("boost_tape.txt","r")]).split(',')]
+	i = Interpreter(copy.copy(tape), Opcode.default_opcodes(), [1])
+	i.run()
+	print(i.pop_output())
+	i = Interpreter(copy.copy(tape), Opcode.default_opcodes(), [2])
+	i.run()
+	print(i.pop_output())

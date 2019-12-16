@@ -171,5 +171,28 @@ class TestAocDay5(unittest.TestCase):
 		i.run()
 		self.assertEqual(i.pop_output(), 1001)
 
+class TestAocDay9(unittest.TestCase):
+	def setUp(self):
+		self.ops = Opcode.default_opcodes()
+
+	def test_first_code(self):
+		import copy
+		tape = [109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99]
+		i = Interpreter.Interpreter(copy.copy(tape), self.ops)
+		i.run()
+		self.assertEqual(i._Interpreter__outputs,tape)
+	
+	def test_second_code(self):
+		tape = [1102,34915192,34915192,7,4,7,99,0]
+		i = Interpreter.Interpreter(tape, self.ops)
+		i.run()
+		self.assertEqual(i.pop_output(),34915192*34915192)
+
+	def test_third_code(self):
+		tape = [104,1125899906842624,99]
+		i = Interpreter.Interpreter(tape, self.ops)
+		i.run()
+		self.assertEqual(i.pop_output(),1125899906842624)
+
 if __name__=='__main__':
 	unittest.main()
