@@ -64,5 +64,47 @@ class TestMapMods(unittest.TestCase):
 		counts = {(0,1):7,(0,4):7,(2,0):6,(2,1):7,(2,2):7,(2,3):7,(2,4):5,(3,4):7,(4,3):8,(4,4):7}
 		self.assertEqual(map_to_counts(in_map),counts)
 
+	def test_transpose_with_null(self):
+		ll = [[0,1,2],[3],[4,5]]
+		out = [[0,3,4],[1,None,5],[2,None,None]]
+		self.assertEqual(transpose(ll,True),out)
+
+	def test_find_nth(self):
+		ll = [[0,1,2],[3,None,4],[5,None,None]]
+		self.assertEqual([i for l in ll for i in l if i is not None],[0,1,2,3,4,5])
+		for i in range(6):
+			self.assertEqual(find_nth_asteroid(ll,i+1),i)
+
+	def test_angles_small(self):
+		base_loc = (3,8)
+		self.assertEqual(True,True)
+
+	def test_vaporisations_small(self):
+		in_map = transpose(transpose([".#....#####...#..","##...##.#####..##","##...#...#.#####.","..#.........###..","..#.#.....#....##"]))
+		pts = map_to_points(in_map)
+		base_loc = (3,8)
+		order = [i for l in transpose(partition_by_angle(pts,base_loc), True) for i in l if i]
+		expect = [(1,8),(0,9),(1,9),(0,10),(2,9),(1,11),(1,12),(2,11),(1,15),(2,12),(2,13),(2,14),(2,15),(3,12),(4,16),(4,15),(4,10),(4,4),(4,2),(3,2),(2,0),(2,1),(1,0),(1,1),(2,5),(0,1),(1,5),(1,6),(0,6),(0,7),(0,8),(1,10),(0,14),(1,16),(3,13),(3,14)]
+		self.assertEqual(order,expect)
+
+	def test_vaporisations_large(self):
+		in_map = transpose(transpose([".#..##.###...#######","##.############..##.",".#.######.########.#",".###.#######.####.#.","#####.##.#.##.###.##","..#####..#.#########","####################","#.####....###.#.#.##","##.#################","#####.##.###..####..","..######..##.#######","####.##.####...##..#",".#####..#.######.###","##...#.##########...","#.##########.#######",".####.#.###.###.#.##","....##.##.###..#####",".#.#.###########.###","#.#.#.#####.####.###","###.##.####.##.#..##"]))
+		base_loc = (13,11)
+
+		self.assertEqual(calc_angle((0,16),(13,11)),0.36717)
+
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,1),(12,11))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,2),(1,12))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,3),(2,12))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,10),(8,12))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,20),(0,16))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,50),(9,16))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,100),(16,10))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,199),(6,9))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,200),(2,8))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,201),(9,10))
+		self.assertEqual(nth_asteroid_vaporised(in_map,base_loc,299),(1,11))
+		
+
 if __name__=='__main__':
 	unittest.main()
