@@ -66,4 +66,4 @@ if __name__=='__main__':
     adapters = file_to_ratings("2020/day10/input.txt")
     diffs = adapter_differences(adapters)
     print(diffs[0]*diffs[1])
-    print(len(find_arrangements(sort_and_reverse(adapters),max(adapters)+3)))
+    print(len(find_arrangements(sort_and_reverse(adapters),[max(adapters)+3])))
