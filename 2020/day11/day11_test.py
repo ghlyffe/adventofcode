@@ -92,5 +92,38 @@ class TestCA(unittest.TestCase):
         ca.run(4)
         self.assertEqual(ca.grid(),day11.lines_to_grid(expet))
 
+    def test_blinker(self):
+        rules = day11.gol_rules()
+        start = ["..........", \
+                 "..........", \
+                 "..........", \
+                 "..........", \
+                 "..........", \
+                 "...###....", \
+                 "..........", \
+                 "..........", \
+                 "..........", \
+                 ".........." ]
+        expet = ["..........", \
+                 "..........", \
+                 "..........", \
+                 "..........", \
+                 "....#.....", \
+                 "....#.....", \
+                 "....#.....", \
+                 "..........", \
+                 "..........", \
+                 ".........." ]
+        ca = day11.Automaton(day11.lines_to_grid(start),rules)
+        ca.generation()
+        self.assertEqual(ca.grid(),day11.lines_to_grid(expet))
+        ca.generation()
+        self.assertEqual(ca.grid(),day11.lines_to_grid(start))
+        ca.generation()
+        self.assertEqual(ca.grid(),day11.lines_to_grid(expet))
+        ca.generation()
+        self.assertEqual(ca.grid(),day11.lines_to_grid(start))
+
+
 if __name__=='__main__':
     unittest.main()
