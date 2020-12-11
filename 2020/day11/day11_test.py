@@ -66,5 +66,31 @@ class TestCA(unittest.TestCase):
         self.assertEqual(expect,ca.grid())
         self.assertEqual(26,ca.count_occupied())
 
+    def test_glider(self):
+        rules = day11.gol_rules()
+        start = ["..........", \
+                 "..........", \
+                 "..........", \
+                 "....#.....", \
+                 ".....#....", \
+                 "...###....", \
+                 "..........", \
+                 "..........", \
+                 "..........", \
+                 ".........." ]
+        expet = ["..........", \
+                 "..........", \
+                 "..........", \
+                 "..........", \
+                 ".....#....", \
+                 "......#...", \
+                 "....###...", \
+                 "..........", \
+                 "..........", \
+                 ".........." ]
+        ca = day11.Automaton(day11.lines_to_grid(start),rules)
+        ca.run(4)
+        self.assertEqual(ca.grid(),day11.lines_to_grid(expet))
+
 if __name__=='__main__':
     unittest.main()

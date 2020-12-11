@@ -179,6 +179,13 @@ def part_2_rules():
     rules['#'][8] = 'L'
     return rules
 
+def gol_rules():
+    rules = {'#': {i:'.' for i in range(9)}, '.': {i:'.' for i in range(9)}}
+    rules['#'][2] = '#'
+    rules['#'][3] = '#'
+    rules['.'][3] = '#'
+    return rules
+
 if __name__=='__main__':
     start = lines_to_grid([line for line in open("2020/day11/input.txt","r")])
     ca = Automaton(copy.deepcopy(start),part_1_rules())
