@@ -124,12 +124,13 @@ class Automaton(object):
     def generation(self):
         changed = False
         max_y = len(self.__grid)
-        new = copy.deepcopy(self.__grid)
+        new = []
         for y in range(max_y):
+            new.append([])
             max_x = len(self.__grid[y])
             for x in range(max_x):
                 n = self.__neighbourhood(self.__grid,y,x)
-                new[y][x] = self.__rules[self.__grid[y][x]][n]
+                new[y].append(self.__rules[self.__grid[y][x]][n])
                 if new[y][x] != self.__grid[y][x]:
                     changed = True
         self.__grid = new
