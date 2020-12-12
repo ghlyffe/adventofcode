@@ -1,6 +1,6 @@
 import copy
 
-def neumann_neighbourhood(grid,y,x):
+def neumann_neighbourhood(grid,y,x): # In VSCode (the slowest profiling I've seen yet on identical code), takes ~4us per call
     max_y = len(grid)
     max_x = len(grid[y])
     n = 0
@@ -31,7 +31,7 @@ def neumann_neighbourhood(grid,y,x):
                 n += 1
     return n
 
-def visibility_neighbourhood(grid,y,x):
+def visibility_neighbourhood(grid,y,x): # In VSCode, takes ~11us per call
     n = 0
     max_y = len(grid)
     max_x = len(grid[y])
@@ -191,9 +191,10 @@ def gol_rules():
 
 if __name__=='__main__':
     start = lines_to_grid([line for line in open("2020/day11/input.txt","r")])
-    ca = Automaton(copy.deepcopy(start),part_1_rules())
+    ca = Automaton(start,part_1_rules())
     ca.run_to_stable()
     print(ca.count_occupied())
-    ca = Automaton(copy.deepcopy(start),part_2_rules(), visibility_neighbourhood)
+    start = lines_to_grid([line for line in open("2020/day11/input.txt","r")])
+    ca = Automaton(start,part_2_rules(), visibility_neighbourhood)
     ca.run_to_stable()
     print(ca.count_occupied())
