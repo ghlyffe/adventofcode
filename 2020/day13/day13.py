@@ -26,6 +26,20 @@ def earliest_bus(tstamp,buses):
 
 def find_sequence(line):
     """
+    Turns out that this is a CRT-solving sieve, so these tests should be expanded.
+    https://en.wikipedia.org/wiki/Chinese_remainder_theorem#Search_by_sieving
+
+    Be prepared for:
+    * Set pairwise coprimality
+    * Linear Diophantine Systems
+    * Univariate polynomial rings and Euclidean domains
+
+    There's a lot of heavy mathematics, the sieve method comes down (approximately) to the approach here:
+    * Treat everything as starting from the same number with a modulo (how many steps forward we want it)
+    * Find the lowest number where the first two moduli are 0
+    * Then scan forwards in steps of the product of all "fixed" moduli to lock in the next
+    * Repeat until the entire list is fixed.
+
     n % ids[0] = 0
     ids[1] - n%ids[1] = 1
     .
