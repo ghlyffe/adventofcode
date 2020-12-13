@@ -38,6 +38,14 @@ def find_sequence(line):
 
     >>> find_sequence("7,13,x,x,59,x,31,19")
     1068781
+    >>> find_sequence("67,7,59,61")
+    754018
+    >>> find_sequence("67,x,7,59,61")
+    779210
+    >>> find_sequence("67,7,x,59,61")
+    1261476
+    >>> find_sequence("1789,37,47,1889")
+    1202161486
     """
     offsets = {}
     seq = []
@@ -49,11 +57,30 @@ def find_sequence(line):
             seq.append(int(i))
         cur += 1
 
-    cand = seq[0]
-    while True:
-        if all([(cand+offsets[i])%i==0 for i in seq]):
-            return cand
-        cand += seq[0]
+    cand = 0
+    fixed = 1
+    inc = seq[0]
+    while fixed < len(seq):
+        cand += inc
+        if (cand+offsets[seq[fixed]]) % seq[fixed] == 0:
+            fixed += 1
+            inc = lcm(seq[:fixed])
+    return cand
+
+def lcm(lst):
+    """
+    >>> lcm([7,13])
+    91
+    >>> lcm([7,13,59])
+    5369
+    >>> lcm([7,13,59,31])
+    166439
+    """
+    cur = int(lst[0]*lst[1] / math.gcd(lst[0],lst[1]))
+    for i in range(2,len(lst)):
+        cur = int((cur*lst[i])/math.gcd(cur,lst[i]))
+    return cur
+
 
 if __name__=='__main__':
     import doctest
