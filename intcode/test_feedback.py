@@ -1,10 +1,15 @@
 #!/usr/bin/python3
 
 import unittest
-import FeedbackMachine
-import Interpreter
 
-from Opcode import *
+try:
+	import FeedbackMachine
+	import Interpreter
+	from Opcode import *
+except:
+	from intcode import FeedbackMachine
+	from intcode import Interpreter
+	from intcode.Opcode import *
 
 class TestFeedback(unittest.TestCase):
 	def test_feedback_opcode(self):

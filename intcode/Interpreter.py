@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-import Opcode
+try:
+	import Opcode
+except:
+	from intcode import Opcode
 
 class Interpreter(object):
 	def __init__(self,tape,ops={},inputs=[]):

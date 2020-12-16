@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 import unittest
 
-import Interpreter, Opcode
+try:
+	import Interpreter, Opcode
+except:
+	from intcode import Interpreter
+	from intcode import Opcode
 
 class AdditionTests(unittest.TestCase):
 	def setUp(self):

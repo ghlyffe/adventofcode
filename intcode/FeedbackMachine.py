@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 
-from Interpreter import Interpreter
-from Opcode import *
+try:
+	from Interpreter import Interpreter
+	from Opcode import *
+except:
+	from intcode.Interpreter import Interpreter
+	from intcode.Opcode import *
 
 class FeedbackOpcode(Output):
 	def __init__(self, interpreter, out_list):

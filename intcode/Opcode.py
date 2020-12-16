@@ -1,6 +1,8 @@
 #!/usr/bin/python3
-
-import intcode_except as ie
+try:
+	import intcode_except as ie
+except:
+	import intcode.intcode_except as ie
 
 class Opcode(object):
 	def __init__(self,interpreter):
